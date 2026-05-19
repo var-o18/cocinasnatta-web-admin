@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function LoginSection() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -24,7 +26,7 @@ export default function LoginSection() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/login', {
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,11 +59,11 @@ export default function LoginSection() {
 
       <div className="relative z-10 w-full max-w-[440px] bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] rounded-3xl p-10 md:p-12 shadow-2xl animate-in text-center">
         <div className="mb-10 flex flex-col items-center">
-          <Image 
-            src="/assets/cocinasnattalogo.png" 
-            alt="Natta Cocinas Logo" 
-            width={180} 
-            height={80} 
+          <Image
+            src="/assets/cocinasnattalogo.png"
+            alt="Natta Cocinas Logo"
+            width={180}
+            height={80}
             className="object-contain mx-auto"
             priority
           />
@@ -81,8 +83,8 @@ export default function LoginSection() {
             <label className="block text-[11px] font-semibold text-white/50 uppercase tracking-[1px] mb-2">
               Usuario
             </label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -90,21 +92,21 @@ export default function LoginSection() {
               placeholder="admin"
             />
           </div>
-          
+
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="block text-[11px] font-semibold text-white/50 uppercase tracking-[1px]">
                 Contraseña
               </label>
-              <a 
-                href="#" 
+              <a
+                href="#"
                 className="text-xs text-primary hover:text-primary-hover transition-colors duration-300"
               >
                 ¿Olvidaste la contraseña?
               </a>
             </div>
-            <input 
-              type="password" 
+            <input
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -113,8 +115,8 @@ export default function LoginSection() {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             className="w-full py-4 bg-primary text-black rounded-xl font-bold text-xs uppercase tracking-[1px] hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/20 active:translate-y-0 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
