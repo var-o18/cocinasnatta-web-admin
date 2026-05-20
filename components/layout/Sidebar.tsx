@@ -9,11 +9,18 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const menuItems = [
+<<<<<<< HEAD
     { name: 'Dashboard', path: '/dashboard', icon: '📊' },
+=======
+>>>>>>> feature/frontend_mensajes_contacto
     { name: 'Pedidos', path: '/pedidos', icon: '🛒' },
     { name: 'Clientes', path: '/clientes', icon: '🤝' },
     { name: 'Proveedores', path: '/proveedores', icon: '👥' },
     { name: 'Agenda', path: '/agenda', icon: '🗓️' },
+<<<<<<< HEAD
+=======
+    { name: 'Mensajes', path: '/mensajes', icon: '✉️' },
+>>>>>>> feature/frontend_mensajes_contacto
     { name: 'Configurador 3D', path: '/configurador', icon: '🏗️' },
   ];
 
