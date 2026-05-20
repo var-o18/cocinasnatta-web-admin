@@ -9,10 +9,12 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: '📊' },
-    { name: 'Pedidos', path: '/dashboard/pedidos', icon: '🛒' },
-    { name: 'Clientes', path: '/dashboard/clientes', icon: '👥' },
-    { name: 'Configurador 3D', path: '/dashboard/configurador', icon: '🏗️' },
+    { name: 'Pedidos', path: '/pedidos', icon: '🛒' },
+    { name: 'Clientes', path: '/clientes', icon: '🤝' },
+    { name: 'Proveedores', path: '/proveedores', icon: '👥' },
+    { name: 'Agenda', path: '/agenda', icon: '🗓️' },
+    { name: 'Mensajes', path: '/mensajes', icon: '✉️' },
+    { name: 'Configurador 3D', path: '/configurador', icon: '🏗️' },
   ];
 
   return (
