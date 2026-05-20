@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
+const CORREO_EMPRESA = 'infonattacocinas@gmail.com';
+
 type EstadoMensaje = 'pendiente' | 'procesado' | 'finalizado' | string;
 
 interface MensajeContacto {
@@ -73,6 +75,9 @@ function PanelResponder(props: {
         <div className="flex items-start justify-between gap-4 p-5 border-b border-white/10">
           <div>
             <h3 className="text-white font-bold tracking-wide">Responder</h3>
+            <p className="text-xs text-white/40 mt-1">
+              De: <span className="text-primary font-medium">{CORREO_EMPRESA}</span>
+            </p>
             <p className="text-xs text-white/40 mt-1">
               Para: <span className="text-white/70 font-medium">{mensaje.nombre}</span>{' '}
               <span className="text-white/50">&lt;{mensaje.correo}&gt;</span>
@@ -232,7 +237,7 @@ export default function MensajesSection() {
           to: mensajeAResponder.correo,
           subject: asunto,
           text: cuerpo,
-          replyTo: mensajeAResponder.correo,
+          replyTo: CORREO_EMPRESA,
         }),
       });
 

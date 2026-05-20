@@ -18,7 +18,7 @@ function textToHtmlParagraphs(text: string) {
 export function buildBrandedEmail(opts: {
   title: string;
   messageText: string;
-  toEmail?: string;
+  correoRespuesta?: string;
   footerText?: string;
 }) {
   const primary = '#d4a373';
@@ -34,7 +34,8 @@ export function buildBrandedEmail(opts: {
 
   const logoPath = path.join(process.cwd(), 'public', 'assets', 'cocinasnattalogo.png');
 
-  const replyMailto = opts.toEmail ? `mailto:${opts.toEmail}` : 'mailto:';
+  const correoRespuesta = opts.correoRespuesta ?? 'infonattacocinas@gmail.com';
+  const replyMailto = `mailto:${correoRespuesta}`;
 
   const html = `<!doctype html>
 <html lang="es">
