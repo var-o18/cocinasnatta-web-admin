@@ -30,19 +30,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: 'Reply-To inválido' }, { status: 400 });
     }
 
+    const correoEmpresa = process.env.GMAIL_USER?.trim() || 'infonattacocinas@gmail.com';
+    const replyToFinal = replyTo || correoEmpresa;
+
     let html = htmlRaw;
     let attachments: any[] | undefined;
     if (!html && text) {
       const branded = buildBrandedEmail({
         title: subject,
         messageText: text,
-        toEmail: replyTo || to,
+        correoRespuesta: correoEmpresa,
       });
       html = branded.html;
       attachments = branded.attachments;
     }
 
-    const info = await sendEmail({ to, subject, text, html, replyTo, attachments });
+    const info = await sendEmail({ to, subject, text, html, replyTo: replyToFinal, attachments });
     return NextResponse.json({ ok: true, messageId: info.messageId });
   } catch (e: any) {
     return NextResponse.json(
