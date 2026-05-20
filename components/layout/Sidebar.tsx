@@ -9,18 +9,12 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const menuItems = [
-<<<<<<< HEAD
     { name: 'Dashboard', path: '/dashboard', icon: '📊' },
-=======
->>>>>>> feature/frontend_mensajes_contacto
     { name: 'Pedidos', path: '/pedidos', icon: '🛒' },
     { name: 'Clientes', path: '/clientes', icon: '🤝' },
     { name: 'Proveedores', path: '/proveedores', icon: '👥' },
     { name: 'Agenda', path: '/agenda', icon: '🗓️' },
-<<<<<<< HEAD
-=======
     { name: 'Mensajes', path: '/mensajes', icon: '✉️' },
->>>>>>> feature/frontend_mensajes_contacto
     { name: 'Configurador 3D', path: '/configurador', icon: '🏗️' },
   ];
 
@@ -29,11 +23,11 @@ export default function Sidebar() {
       <div className="space-y-10">
         {/* Logo */}
         <div className="flex items-center gap-3 px-2">
-          <Image 
-            src="/assets/cocinasnattalogo.png" 
-            alt="Natta Logo" 
-            width={120} 
-            height={50} 
+          <Image
+            src="/assets/cocinasnattalogo.png"
+            alt="Natta Logo"
+            width={120}
+            height={50}
             className="object-contain"
           />
         </div>
@@ -46,11 +40,10 @@ export default function Sidebar() {
               <button
                 key={item.name}
                 onClick={() => router.push(item.path)}
-                className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${
-                  isActive 
-                    ? 'bg-primary text-black font-semibold shadow-lg shadow-primary/10' 
+                className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 cursor-pointer ${isActive
+                    ? 'bg-primary text-black font-semibold shadow-lg shadow-primary/10'
                     : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
-                }`}
+                  }`}
               >
                 <span className="text-lg">{item.icon}</span>
                 {item.name}
