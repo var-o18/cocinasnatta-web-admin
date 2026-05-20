@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { Plus, Search } from 'lucide-react';
 import FormNuevoProveedor from './FormNuevoProveedor';
 import FormEditarProveedor from './FormEditarProveedor';
 
@@ -18,6 +19,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function ProveedoresSection() {
 
     const [proveedores, setProveedores] = useState<Proveedor[]>([]);
+    const [busqueda, setBusqueda] = useState('');
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [proveedorAEditar, setProveedorAEditar] = useState<Proveedor | null>(null);
     const [proveedorAEliminar, setProveedorAEliminar] = useState<Proveedor | null>(null);
@@ -58,26 +60,38 @@ export default function ProveedoresSection() {
         }
     };
 
+    // Filtro de proveedores
+    const proveedoresFiltrados = proveedores.filter((proveedor) => {
+        const query = busqueda.toLowerCase().trim();
+        return (
+            proveedor.nombre_empresa.toLowerCase().includes(query) ||
+            proveedor.nombre_contacto.toLowerCase().includes(query) ||
+            proveedor.correo.toLowerCase().includes(query) ||
+            proveedor.telefono.toLowerCase().includes(query) ||
+            proveedor.direccion.toLowerCase().includes(query)
+        );
+    });
+
     return (
         <div className="w-full text-white">
             <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-2">
+                <div className="relative flex items-center">
+                    <Search className="absolute left-3 w-5 h-5 text-zinc-500" />
                     <input
                         type="text"
                         placeholder="Buscar proveedor..."
-                        className="bg-zinc-900 text-white border border-zinc-700 rounded-lg px-4 py-2 outline-none focus:border-blue-500 w-72"
+                        value={busqueda}
+                        onChange={(e) => setBusqueda(e.target.value)}
+                        className="bg-zinc-900 text-white border border-zinc-700 rounded-lg pl-10 pr-4 py-2 outline-none focus:border-blue-500 w-72 transition-colors placeholder:text-zinc-500"
                     />
-
-                    <button className="bg-zinc-800 hover:bg-zinc-700 px-4 py-2 rounded-lg transition">
-                        Buscar
-                    </button>
                 </div>
 
                 <button
                     onClick={() => setMostrarFormulario(true)}
-                    className="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-lg transition font-medium cursor-pointer"
+                    className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition font-medium cursor-pointer flex items-center gap-2"
                 >
-                    + Nuevo
+                    <Plus className="w-5 h-5" />
+                    <span>Nuevo</span>
                 </button>
             </div>
 
@@ -95,49 +109,57 @@ export default function ProveedoresSection() {
                     </thead>
 
                     <tbody>
-                        {proveedores.map((proveedor) => (
-                            <tr key={proveedor.id} className="hover:bg-zinc-900 transition text-center">
-
-                                <td className="p-4 border-b border-zinc-800">
-                                    {proveedor.nombre_empresa}
+                        {proveedoresFiltrados.length === 0 ? (
+                            <tr>
+                                <td colSpan={headers.length} className="p-8 text-center text-zinc-500">
+                                    No se encontraron proveedores que coincidan con la búsqueda.
                                 </td>
-
-                                <td className="p-4 border-b border-zinc-800">
-                                    {proveedor.nombre_contacto}
-                                </td>
-
-                                <td className="p-4 border-b border-zinc-800">
-                                    {proveedor.telefono}
-                                </td>
-
-                                <td className="p-4 border-b border-zinc-800">
-                                    {proveedor.correo}
-                                </td>
-
-                                <td className="p-4 border-b border-zinc-800">
-                                    {proveedor.direccion}
-                                </td>
-
-                                <td className="p-4 border-b border-zinc-800">
-                                    <div className="flex gap-2 justify-center">
-                                        <button
-                                            onClick={() => setProveedorAEditar(proveedor)}
-                                            className="bg-yellow-600 hover:bg-yellow-700 px-3 py-1 rounded-md text-sm cursor-pointer"
-                                        >
-                                            Editar
-                                        </button>
-
-                                        <button
-                                            onClick={() => setProveedorAEliminar(proveedor)}
-                                            className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md text-sm transition-colors cursor-pointer"
-                                        >
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                </td>
-
                             </tr>
-                        ))}
+                        ) : (
+                            proveedoresFiltrados.map((proveedor) => (
+                                <tr key={proveedor.id} className="hover:bg-zinc-900 transition text-center">
+
+                                    <td className="p-4 border-b border-zinc-800 font-medium">
+                                        {proveedor.nombre_empresa}
+                                    </td>
+
+                                    <td className="p-4 border-b border-zinc-800">
+                                        {proveedor.nombre_contacto}
+                                    </td>
+
+                                    <td className="p-4 border-b border-zinc-800">
+                                        {proveedor.telefono}
+                                    </td>
+
+                                    <td className="p-4 border-b border-zinc-800 text-zinc-300">
+                                        {proveedor.correo}
+                                    </td>
+
+                                    <td className="p-4 border-b border-zinc-800 text-zinc-300">
+                                        {proveedor.direccion}
+                                    </td>
+
+                                    <td className="p-4 border-b border-zinc-800">
+                                        <div className="flex gap-2 justify-center">
+                                            <button
+                                                onClick={() => setProveedorAEditar(proveedor)}
+                                                className="bg-yellow-600 hover:bg-yellow-700 px-3 py-1 rounded-md text-sm cursor-pointer transition-colors"
+                                            >
+                                                Editar
+                                            </button>
+
+                                            <button
+                                                onClick={() => setProveedorAEliminar(proveedor)}
+                                                className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md text-sm transition-colors cursor-pointer"
+                                            >
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            ))
+                        )}
                     </tbody>
 
                 </table>
