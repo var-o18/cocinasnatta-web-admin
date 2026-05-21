@@ -11,7 +11,6 @@ function escapeHtml(input: string) {
 
 function textToHtmlParagraphs(text: string) {
   const safe = escapeHtml(text);
-  // Preserve line breaks in a readable way for email clients.
   return safe.replace(/\r?\n/g, '<br/>');
 }
 

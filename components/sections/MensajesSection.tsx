@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
 const CORREO_EMPRESA = 'infonattacocinas@gmail.com';
+const MENSAJES_POR_PAGINA = 5;
+const ESTADOS_FILTRO = ['todos', 'pendiente', 'procesado', 'finalizado'] as const;
 
 type EstadoMensaje = 'pendiente' | 'procesado' | 'finalizado' | string;
 
@@ -147,6 +149,10 @@ export default function MensajesSection() {
   const [error, setError] = useState('');
   const [menuEstadoAbiertoId, setMenuEstadoAbiertoId] = useState<number | null>(null);
 
+  const [busqueda, setBusqueda] = useState('');
+  const [filtroEstado, setFiltroEstado] = useState<(typeof ESTADOS_FILTRO)[number]>('todos');
+  const [pagina, setPagina] = useState(1);
+
   const [montado, setMontado] = useState(false);
   const [mensajeAResponder, setMensajeAResponder] = useState<MensajeContacto | null>(null);
   const [asunto, setAsunto] = useState('');
@@ -186,6 +192,36 @@ export default function MensajesSection() {
   useEffect(() => {
     cargarMensajes();
   }, []);
+
+  const mensajesFiltrados = useMemo(() => {
+    const texto = busqueda.trim().toLowerCase();
+    return mensajes.filter((msg) => {
+      const estado = (msg.estado || 'pendiente').toLowerCase();
+      if (filtroEstado !== 'todos' && estado !== filtroEstado) return false;
+      if (!texto) return true;
+      return (
+        msg.nombre.toLowerCase().includes(texto) ||
+        msg.correo.toLowerCase().includes(texto) ||
+        msg.mensaje.toLowerCase().includes(texto) ||
+        estado.includes(texto)
+      );
+    });
+  }, [mensajes, busqueda, filtroEstado]);
+
+  const totalPaginas = Math.max(1, Math.ceil(mensajesFiltrados.length / MENSAJES_POR_PAGINA));
+
+  const mensajesPagina = useMemo(() => {
+    const inicio = (pagina - 1) * MENSAJES_POR_PAGINA;
+    return mensajesFiltrados.slice(inicio, inicio + MENSAJES_POR_PAGINA);
+  }, [mensajesFiltrados, pagina]);
+
+  useEffect(() => {
+    setPagina(1);
+  }, [busqueda, filtroEstado]);
+
+  useEffect(() => {
+    if (pagina > totalPaginas) setPagina(totalPaginas);
+  }, [pagina, totalPaginas]);
 
   const cambiarEstado = async (id: number, nuevoEstado: EstadoMensaje) => {
     try {
@@ -270,13 +306,52 @@ export default function MensajesSection() {
     );
   }
 
+  const limpiarFiltros = () => {
+    setBusqueda('');
+    setFiltroEstado('todos');
+    setPagina(1);
+  };
+
   return (
     <div className="space-y-8 animate-in">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold text-white tracking-wide">Mensajes de Contacto</h2>
-        <div className="text-xs font-semibold text-white/40 bg-white/5 px-4 py-2 rounded-full">
-          Total: {mensajes.length}
+        <div className="flex flex-wrap gap-2 text-xs font-semibold">
+          <span className="text-white/40 bg-white/5 px-4 py-2 rounded-full">
+            Total: {mensajes.length}
+          </span>
+          <span className="text-primary bg-primary/10 border border-primary/20 px-4 py-2 rounded-full">
+            Mostrando: {mensajesFiltrados.length}
+          </span>
         </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-3 mb-2">
+        <input
+          type="text"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          placeholder="Buscar por nombre, correo, mensaje o estado..."
+          className="flex-1 px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-primary focus:bg-white/[0.08] transition-all duration-300"
+        />
+        <select
+          value={filtroEstado}
+          onChange={(e) => setFiltroEstado(e.target.value as (typeof ESTADOS_FILTRO)[number])}
+          className="px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-primary focus:bg-white/[0.08] transition-all duration-300 cursor-pointer min-w-[160px]"
+        >
+          <option value="todos" className="bg-neutral-900">Todos los estados</option>
+          <option value="pendiente" className="bg-neutral-900">Pendiente</option>
+          <option value="procesado" className="bg-neutral-900">Procesado</option>
+          <option value="finalizado" className="bg-neutral-900">Finalizado</option>
+        </select>
+        {(busqueda || filtroEstado !== 'todos') && (
+          <button
+            onClick={limpiarFiltros}
+            className="px-4 py-3 rounded-xl text-xs font-bold border border-white/10 bg-white/[0.02] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all cursor-pointer whitespace-nowrap"
+          >
+            Limpiar filtros
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-6">
@@ -284,8 +359,12 @@ export default function MensajesSection() {
           <div className="bg-white/[0.02] border border-white/[0.05] backdrop-blur-md rounded-2xl p-12 text-center text-white/40 text-sm">
             No hay mensajes en la bandeja.
           </div>
+        ) : mensajesFiltrados.length === 0 ? (
+          <div className="bg-white/[0.02] border border-white/[0.05] backdrop-blur-md rounded-2xl p-12 text-center text-white/40 text-sm">
+            No hay mensajes con esos filtros.
+          </div>
         ) : (
-          mensajes.map((msg) => (
+          mensajesPagina.map((msg) => (
             <div key={msg.id} className="bg-white/[0.02] border border-white/[0.05] backdrop-blur-md rounded-2xl p-6 shadow-xl transition-all duration-300 hover:bg-white/[0.04]">
               <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-4 pb-4 border-b border-white/[0.05]">
                 <div>
@@ -353,6 +432,30 @@ export default function MensajesSection() {
           ))
         )}
       </div>
+
+      {mensajesFiltrados.length > 0 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          <p className="text-xs text-white/40">
+            Página {pagina} de {totalPaginas} · {MENSAJES_POR_PAGINA} por página
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPagina((p) => Math.max(1, p - 1))}
+              disabled={pagina === 1}
+              className="px-4 py-2 rounded-xl text-xs font-bold border border-white/10 bg-white/[0.02] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Anterior
+            </button>
+            <button
+              onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
+              disabled={pagina === totalPaginas}
+              className="px-4 py-2 rounded-xl text-xs font-bold border border-white/10 bg-white/[0.02] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Siguiente
+            </button>
+          </div>
+        </div>
+      )}
 
       <PanelResponder
         montado={montado}
