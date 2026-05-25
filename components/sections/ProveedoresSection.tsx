@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Plus, Search } from 'lucide-react';
 import FormNuevoProveedor from './FormNuevoProveedor';
 import FormEditarProveedor from './FormEditarProveedor';
@@ -23,6 +23,8 @@ export default function ProveedoresSection() {
     const [mostrarFormulario, setMostrarFormulario] = useState(false);
     const [proveedorAEditar, setProveedorAEditar] = useState<Proveedor | null>(null);
     const [proveedorAEliminar, setProveedorAEliminar] = useState<Proveedor | null>(null);
+    const [pagina, setPagina] = useState(1);
+    const PROVEEDORES_POR_PAGINA = 10
     const headers = ['Empresa', 'Contacto', 'Teléfono', 'Email', 'Dirección', 'Acciones'];
 
     useEffect(() => {
@@ -72,6 +74,20 @@ export default function ProveedoresSection() {
         );
     });
 
+    const totalPaginas = Math.max(1, Math.ceil(proveedoresFiltrados.length / PROVEEDORES_POR_PAGINA));
+    const proveedoresPagina = useMemo(() => {
+        const inicio = (pagina - 1) * PROVEEDORES_POR_PAGINA;
+        return proveedoresFiltrados.slice(inicio, inicio + PROVEEDORES_POR_PAGINA);
+    }, [proveedoresFiltrados, pagina]);
+
+    useEffect(() => {
+        setPagina(1);
+    }, [busqueda]);
+
+    useEffect(() => {
+        if (pagina > totalPaginas) setPagina(totalPaginas);
+    }, [pagina, totalPaginas]);
+
     return (
         <div className="w-full text-white">
             <div className="flex items-center justify-between mb-6">
@@ -116,7 +132,7 @@ export default function ProveedoresSection() {
                                 </td>
                             </tr>
                         ) : (
-                            proveedoresFiltrados.map((proveedor) => (
+                            proveedoresPagina.map((proveedor) => (
                                 <tr key={proveedor.id} className="hover:bg-zinc-900 transition text-center">
 
                                     <td className="p-4 border-b border-zinc-800 font-medium">
@@ -163,6 +179,37 @@ export default function ProveedoresSection() {
                     </tbody>
 
                 </table>
+            </div>
+
+            {/* Paginación */}
+            <div className="relative flex items-center justify-center mt-6">
+                <div className="flex items-center gap-4">
+
+                    <button
+                        onClick={() => setPagina(p => Math.max(1, p - 1))}
+                        disabled={pagina === 1}
+                        className="w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-black font-bold text-lg shadow-lg cursor-pointer hover:scale-105 hover:shadow-xl active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-default disabled:hover:scale-100"
+                    >
+                        {"<"}
+                    </button>
+
+                    <div className="text-white font-semibold text-lg min-w-[30px] text-center">
+                        {pagina}
+                    </div>
+
+                    <button
+                        onClick={() => setPagina(p => Math.min(totalPaginas, p + 1))}
+                        disabled={pagina === totalPaginas}
+                        className="w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-black font-bold text-lg shadow-lg cursor-pointer hover:scale-105 hover:shadow-xl active:scale-95 transition-all duration-200 disabled:opacity-40 disabled:cursor-default disabled:hover:scale-100"
+                    >
+                        {">"}
+                    </button>
+
+                </div>
+                <p className="absolute right-0 text-white/60 text-sm">
+                    Mostrando {pagina} de {totalPaginas} páginas
+                </p>
+
             </div>
 
             {/* Formulario Creacion */}
