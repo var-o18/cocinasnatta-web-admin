@@ -21,7 +21,7 @@
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
   --color-input-bg: var(--input-bg);
-  
+
   --font-sans: 'Montserrat', sans-serif;
 }
 
@@ -52,10 +52,61 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-in {
   animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* FullCalendar popovers */
+.fc-popover {
+  background-color: #1f2937 !important;
+  border: 1px solid #374151 !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  overflow: hidden !important;
+  z-index: 40 !important;
+}
+
+.fc-popover-header {
+  background-color: #111827 !important;
+  color: #f3f4f6 !important;
+  padding: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.fc-popover-body {
+  background-color: #1f2937 !important;
+  padding: 0.75rem !important;
+}
+
+.fc-daygrid-more-link {
+  color: #60a5fa !important;
+  font-weight: bold !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+}
+
+.fc-daygrid-more-link:hover {
+  background-color: rgba(96, 165, 250, 0.1) !important;
+  text-decoration: none !important;
+}
+
+.fc-popover-close {
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+.fc-popover-close:hover {
+  color: white !important;
+  background: transparent !important;
 }
