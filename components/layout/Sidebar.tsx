@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
+import { LayoutDashboard, ShoppingCart, Users, Truck, Calendar, Mail, Cuboid, } from 'lucide-react';
 
 interface User {
   name?: string;
@@ -29,13 +30,13 @@ export default function Sidebar() {
   }, []);
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: '📊' },
-    { name: 'Pedidos', path: '/pedidos', icon: '🛒' },
-    { name: 'Clientes', path: '/clientes', icon: '🤝' },
-    { name: 'Proveedores', path: '/proveedores', icon: '👥' },
-    { name: 'Agenda', path: '/agenda', icon: '🗓️' },
-    { name: 'Mensajes', path: '/mensajes', icon: '✉️' },
-    { name: 'Configurador 3D', path: '/configurador', icon: '🏗️' },
+    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
+    { name: 'Pedidos', path: '/pedidos', icon: <ShoppingCart className="w-5 h-5" /> },
+    { name: 'Clientes', path: '/clientes', icon: <Users className="w-5 h-5" /> },
+    { name: 'Proveedores', path: '/proveedores', icon: <Truck className="w-5 h-5" /> },
+    { name: 'Agenda', path: '/agenda', icon: <Calendar className="w-5 h-5" /> },
+    { name: 'Mensajes', path: '/mensajes', icon: <Mail className="w-5 h-5" /> },
+    { name: 'Configurador 3D', path: '/configurador', icon: <Cuboid className="w-5 h-5" /> },
   ];
 
   return (
