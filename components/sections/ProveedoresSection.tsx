@@ -89,16 +89,16 @@ export default function ProveedoresSection() {
     }, [pagina, totalPaginas]);
 
     return (
-        <div className="w-full text-white">
-            <div className="flex items-center justify-between mb-6">
-                <div className="relative flex items-center">
-                    <Search className="absolute left-3 w-5 h-5 text-zinc-500" />
+        <div className="w-full text-white min-w-0">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+                <div className="relative flex-1 min-w-0">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
                     <input
                         type="text"
                         placeholder="Buscar proveedor..."
                         value={busqueda}
                         onChange={(e) => setBusqueda(e.target.value)}
-                        className="bg-zinc-900 text-white border border-zinc-700 rounded-lg pl-10 pr-4 py-2 outline-none focus:border-blue-500 w-72 transition-colors placeholder:text-zinc-500"
+                        className="bg-zinc-900 text-white border border-zinc-700 rounded-lg pl-10 pr-4 py-2 outline-none focus:border-blue-500 w-full max-w-full transition-colors placeholder:text-zinc-500"
                     />
                 </div>
 
@@ -111,13 +111,13 @@ export default function ProveedoresSection() {
                 </button>
             </div>
 
-            <div className="overflow-x-auto rounded-xl border border-zinc-700">
-                <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto rounded-xl border border-zinc-700 min-w-0 hidden lg:block">
+                <table className="w-full table-fixed text-left border-collapse">
 
                     <thead className="bg-zinc-800 text-center">
                         <tr>
                             {headers.map((header) => (
-                                <th key={header} className="p-4 border-b border-zinc-800">
+                                <th key={header} className="p-4 border-b border-zinc-800 whitespace-normal wrap-break-word">
                                     {header}
                                 </th>
                             ))}
@@ -135,23 +135,23 @@ export default function ProveedoresSection() {
                             proveedoresPagina.map((proveedor) => (
                                 <tr key={proveedor.id} className="hover:bg-zinc-900 transition text-center">
 
-                                    <td className="p-4 border-b border-zinc-800 font-medium">
+                                    <td className="p-4 border-b border-zinc-800 font-medium whitespace-normal wrap-break-word">
                                         {proveedor.nombre_empresa}
                                     </td>
 
-                                    <td className="p-4 border-b border-zinc-800">
+                                    <td className="p-4 border-b border-zinc-800 whitespace-normal wrap-break-word">
                                         {proveedor.nombre_contacto}
                                     </td>
 
-                                    <td className="p-4 border-b border-zinc-800">
+                                    <td className="p-4 border-b border-zinc-800 whitespace-normal wrap-break-word">
                                         {proveedor.telefono}
                                     </td>
 
-                                    <td className="p-4 border-b border-zinc-800 text-zinc-300">
+                                    <td className="p-4 border-b border-zinc-800 text-zinc-300 whitespace-normal wrap-break-word">
                                         {proveedor.correo}
                                     </td>
 
-                                    <td className="p-4 border-b border-zinc-800 text-zinc-300">
+                                    <td className="p-4 border-b border-zinc-800 text-zinc-300 whitespace-normal wrap-break-word">
                                         {proveedor.direccion}
                                     </td>
 
@@ -181,6 +181,51 @@ export default function ProveedoresSection() {
                 </table>
             </div>
 
+            <div className="grid gap-4 lg:hidden">
+                {proveedoresPagina.length === 0 ? null : proveedoresPagina.map((proveedor) => (
+                    <div key={proveedor.id} className="rounded-3xl border border-zinc-700 bg-zinc-950 p-4 shadow-sm">
+                        <div className="flex items-start justify-between gap-4">
+                            <div className="min-w-0">
+                                <p className="text-sm text-zinc-400">Empresa</p>
+                                <p className="font-medium text-white break-words">{proveedor.nombre_empresa}</p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => setProveedorAEditar(proveedor)}
+                                    className="bg-yellow-600 hover:bg-yellow-700 px-3 py-1 rounded-md text-sm transition-colors"
+                                >
+                                    Editar
+                                </button>
+                                <button
+                                    onClick={() => setProveedorAEliminar(proveedor)}
+                                    className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md text-sm transition-colors"
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                        <div className="mt-4 grid gap-3 text-sm text-zinc-300">
+                            <div>
+                                <p className="text-zinc-500">Contacto</p>
+                                <p>{proveedor.nombre_contacto}</p>
+                            </div>
+                            <div>
+                                <p className="text-zinc-500">Teléfono</p>
+                                <p>{proveedor.telefono}</p>
+                            </div>
+                            <div>
+                                <p className="text-zinc-500">Email</p>
+                                <p className="break-words">{proveedor.correo}</p>
+                            </div>
+                            <div>
+                                <p className="text-zinc-500">Dirección</p>
+                                <p className="break-words">{proveedor.direccion}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
             {/* Paginación */}
             <div className="relative flex items-center justify-center mt-6">
                 <div className="flex items-center gap-4">
@@ -193,7 +238,7 @@ export default function ProveedoresSection() {
                         {"<"}
                     </button>
 
-                    <div className="text-white font-semibold text-lg min-w-[30px] text-center">
+                    <div className="text-white font-semibold text-lg min-w-7.5 text-center">
                         {pagina}
                     </div>
 

@@ -7,8 +7,8 @@ export default function ProveedorPage() {
     <div className="min-h-screen bg-black text-white flex">
       <Sidebar />
 
-      <div className="flex-1 pl-64 min-h-screen flex flex-col">
-        <main className="flex-grow p-8 md:p-12 max-w-7xl mx-auto w-full">
+      <div className="flex-1 min-w-0 pl-64 min-h-screen flex flex-col">
+        <main className="grow p-8 md:p-12 max-w-7xl mx-auto w-full min-w-0">
           <Header title="Proveedores" />
           <ProveedoresSection />
         </main>

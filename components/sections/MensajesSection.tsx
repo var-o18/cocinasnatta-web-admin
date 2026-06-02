@@ -314,25 +314,13 @@ export default function MensajesSection() {
 
   return (
     <div className="space-y-8 animate-in">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
-        <h2 className="text-2xl font-bold text-white tracking-wide">Mensajes de Contacto</h2>
-        <div className="flex flex-wrap gap-2 text-xs font-semibold">
-          <span className="text-white/40 bg-white/5 px-4 py-2 rounded-full">
-            Total: {mensajes.length}
-          </span>
-          <span className="text-primary bg-primary/10 border border-primary/20 px-4 py-2 rounded-full">
-            Mostrando: {mensajesFiltrados.length}
-          </span>
-        </div>
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-3 mb-2">
+      <div className="flex flex-col lg:flex-row gap-3 mb-6">
         <input
           type="text"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
           placeholder="Buscar por nombre, correo, mensaje o estado..."
-          className="flex-1 px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-primary focus:bg-white/[0.08] transition-all duration-300"
+          className="flex-1 px-4 py-3 bg-white/[0.04] border border-white/[0.25] rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-primary focus:bg-white/[0.08] transition-all duration-300"
         />
         <select
           value={filtroEstado}
@@ -365,7 +353,7 @@ export default function MensajesSection() {
           </div>
         ) : (
           mensajesPagina.map((msg) => (
-            <div key={msg.id} className="bg-white/[0.02] border border-white/[0.05] backdrop-blur-md rounded-2xl p-6 shadow-xl transition-all duration-300 hover:bg-white/[0.04]">
+            <div key={msg.id} className="bg-white/[0.02] border border-white/[0.25] backdrop-blur-md rounded-2xl p-6 shadow-xl transition-all duration-300 hover:bg-white/[0.09]">
               <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-4 pb-4 border-b border-white/[0.05]">
                 <div>
                   <h3 className="text-lg font-bold text-white mb-1">{msg.nombre}</h3>
@@ -434,26 +422,34 @@ export default function MensajesSection() {
       </div>
 
       {mensajesFiltrados.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          <p className="text-xs text-white/40">
-            Página {pagina} de {totalPaginas} · {MENSAJES_POR_PAGINA} por página
-          </p>
-          <div className="flex items-center gap-2">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 items-center gap-3">
+          <div className="hidden md:block" />
+          <div className="flex items-center justify-center gap-4">
             <button
               onClick={() => setPagina((p) => Math.max(1, p - 1))}
               disabled={pagina === 1}
-              className="px-4 py-2 rounded-xl text-xs font-bold border border-white/10 bg-white/[0.02] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-black font-bold text-lg shadow-lg cursor-pointer hover:scale-105 hover:shadow-xl active:scale-95 transition-all duration-200 disabled:opacity-40"
             >
-              Anterior
+              {"<"}
             </button>
+
+            <div className="text-white font-semibold text-lg min-w-7.5 text-center">
+              {pagina}
+            </div>
+
             <button
               onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
               disabled={pagina === totalPaginas}
-              className="px-4 py-2 rounded-xl text-xs font-bold border border-white/10 bg-white/[0.02] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-11 h-11 flex items-center justify-center rounded-2xl bg-white text-black font-bold text-lg shadow-lg cursor-pointer hover:scale-105 hover:shadow-xl active:scale-95 transition-all duration-200 disabled:opacity-40"
             >
-              Siguiente
+              {">"}
             </button>
           </div>
+
+          <p className="text-white/60 text-sm text-center md:text-right md:justify-self-end">
+            Mostrando {pagina} de {totalPaginas} páginas
+          </p>
+
         </div>
       )}
 
