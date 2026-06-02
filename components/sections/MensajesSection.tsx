@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 const CORREO_EMPRESA = 'infonattacocinas@gmail.com';
 const MENSAJES_POR_PAGINA = 5;
 const ESTADOS_FILTRO = ['todos', 'pendiente', 'procesado', 'finalizado'] as const;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 type EstadoMensaje = 'pendiente' | 'procesado' | 'finalizado' | string;
 
@@ -166,7 +167,7 @@ export default function MensajesSection() {
     setCargando(true);
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch('http://localhost:8000/api/contacts', {
+      const response = await fetch(`${API_URL}/api/contacts`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
@@ -226,7 +227,7 @@ export default function MensajesSection() {
   const cambiarEstado = async (id: number, nuevoEstado: EstadoMensaje) => {
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch(`http://localhost:8000/api/contacts/${id}`, {
+      const response = await fetch(`${API_URL}/api/contacts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
