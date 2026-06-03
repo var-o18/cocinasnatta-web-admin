@@ -167,7 +167,7 @@ export default function MensajesSection() {
     setCargando(true);
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch(`${API_URL}/api/contacts`, {
+      const response = await fetch(`${API_URL}/contacts`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
@@ -227,7 +227,7 @@ export default function MensajesSection() {
   const cambiarEstado = async (id: number, nuevoEstado: EstadoMensaje) => {
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch(`${API_URL}/api/contacts/${id}`, {
+      const response = await fetch(`${API_URL}/contacts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
