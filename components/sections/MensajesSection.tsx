@@ -320,13 +320,13 @@ export default function MensajesSection() {
           type="text"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          placeholder="Buscar por nombre, correo, mensaje o estado..."
-          className="flex-1 px-4 py-3 bg-white/[0.04] border border-white/[0.25] rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-primary focus:bg-white/[0.08] transition-all duration-300"
+          placeholder="Buscar mensaje..."
+          className="sm:w-70 px-4 py-3 bg-white/[0.04] border border-white/[0.25] rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-primary focus:bg-white/[0.08] transition-all duration-300"
         />
         <select
           value={filtroEstado}
           onChange={(e) => setFiltroEstado(e.target.value as (typeof ESTADOS_FILTRO)[number])}
-          className="px-4 py-3 bg-white/[0.04] border border-white/[0.08] rounded-xl text-white text-sm focus:outline-none focus:border-primary focus:bg-white/[0.08] transition-all duration-300 cursor-pointer min-w-[160px]"
+          className="bg-zinc-900 text-white border border-zinc-700 rounded-lg px-4 py-2 outline-none focus:border-blue-500 transition-colors sm:w-48 cursor-pointer"
         >
           <option value="todos" className="bg-neutral-900">Todos los estados</option>
           <option value="pendiente" className="bg-neutral-900">Pendiente</option>
@@ -366,7 +366,7 @@ export default function MensajesSection() {
                   <span className="text-xs font-medium text-white/40">
                     {formatearFechaHora(msg.created_at)}
                   </span>
-                  
+
                   <button
                     onClick={() => abrirResponder(msg)}
                     className="px-4 py-2 rounded-full text-xs font-bold border border-white/10 bg-white/[0.02] text-white/70 hover:bg-white/[0.06] hover:text-white transition-all cursor-pointer"
@@ -382,27 +382,27 @@ export default function MensajesSection() {
                       {msg.estado ? msg.estado.charAt(0).toUpperCase() + msg.estado.slice(1) : 'Pendiente'}
                       <svg className={`w-3 h-3 transition-transform duration-200 ${menuEstadoAbiertoId === msg.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
-                    
+
                     {menuEstadoAbiertoId === msg.id && (
                       <>
-                        <div 
+                        <div
                           className="fixed inset-0 z-40"
                           onClick={() => setMenuEstadoAbiertoId(null)}
                         />
                         <div className="absolute top-full mt-2 right-0 bg-neutral-900 border border-white/10 rounded-xl py-1 shadow-2xl z-50 min-w-[130px] animate-in fade-in slide-in-from-top-2">
-                          <div 
+                          <div
                             onClick={() => { cambiarEstado(msg.id, 'pendiente'); setMenuEstadoAbiertoId(null); }}
                             className="px-4 py-2.5 text-xs font-bold text-white/60 hover:bg-white/5 hover:text-white cursor-pointer transition-colors"
                           >
                             Pendiente
                           </div>
-                          <div 
+                          <div
                             onClick={() => { cambiarEstado(msg.id, 'procesado'); setMenuEstadoAbiertoId(null); }}
                             className="px-4 py-2.5 text-xs font-bold text-amber-400/80 hover:bg-amber-500/10 hover:text-amber-400 cursor-pointer transition-colors"
                           >
                             Procesado
                           </div>
-                          <div 
+                          <div
                             onClick={() => { cambiarEstado(msg.id, 'finalizado'); setMenuEstadoAbiertoId(null); }}
                             className="px-4 py-2.5 text-xs font-bold text-emerald-400/80 hover:bg-emerald-500/10 hover:text-emerald-400 cursor-pointer transition-colors"
                           >

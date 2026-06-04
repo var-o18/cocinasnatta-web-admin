@@ -91,7 +91,7 @@ export default function ProveedoresSection() {
     return (
         <div className="w-full text-white min-w-0">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
-                <div className="relative flex-1 min-w-0">
+                <div className="relative sm:w-70">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
                     <input
                         type="text"
