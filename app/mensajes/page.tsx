@@ -9,7 +9,10 @@ export default function MensajesPage() {
 
       <div className="flex-1 pl-64 min-h-screen flex flex-col">
         <main className="flex-grow p-8 md:p-12 max-w-7xl mx-auto w-full">
-          <Header title="Mensajes de Contacto" />
+          <Header
+            title="Mensajes de Contacto"
+            subtitle="Administra los mensajes de contacto de la web."
+          />
           <MensajesSection />
         </main>
       </div>

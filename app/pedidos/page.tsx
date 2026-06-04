@@ -9,7 +9,10 @@ export default function PedidosPage() {
 
             <div className="flex-1 pl-64 min-h-screen flex flex-col">
                 <main className="flex-grow p-8 md:p-12 max-w-7xl mx-auto w-full">
-                    <Header title="Pedidos" />
+                    <Header
+                        title="Pedidos"
+                        subtitle="Administra los pedidos de Natta Cocinas."
+                    />
                     <PedidoSection />
                 </main>
             </div>

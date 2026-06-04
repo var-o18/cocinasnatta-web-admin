@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
-import { LayoutDashboard, ShoppingCart, Users, Truck, Calendar, Mail, Cuboid, } from 'lucide-react';
+import { ShoppingCart, Users, Truck, Calendar, Mail, Cuboid, } from 'lucide-react';
 
 interface User {
   name?: string;
@@ -30,7 +30,6 @@ export default function Sidebar() {
   }, []);
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
     { name: 'Pedidos', path: '/pedidos', icon: <ShoppingCart className="w-5 h-5" /> },
     { name: 'Clientes', path: '/clientes', icon: <Users className="w-5 h-5" /> },
     { name: 'Proveedores', path: '/proveedores', icon: <Truck className="w-5 h-5" /> },
@@ -56,7 +55,7 @@ export default function Sidebar() {
         {/* Navigation */}
         <nav className="space-y-1">
           {menuItems.map((item) => {
-            const isActive = pathname === item.path || (item.path !== '/dashboard' && pathname.startsWith(item.path));
+            const isActive = pathname === item.path || (item.path !== '/pedidos' && pathname.startsWith(item.path));
             return (
               <button
                 key={item.name}

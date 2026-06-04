@@ -18,7 +18,7 @@ export default function LoginSection() {
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
-      router.push('/dashboard');
+      router.push('/pedidos');
     }
   }, [router]);
 
@@ -46,7 +46,7 @@ export default function LoginSection() {
       localStorage.setItem('auth_token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      router.push('/dashboard');
+      router.push('/pedidos');
     } catch (err: any) {
       setError(err.message || 'Error de conexión con el servidor');
     } finally {

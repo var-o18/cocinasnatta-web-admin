@@ -9,7 +9,10 @@ export default function ProveedorPage() {
 
       <div className="flex-1 min-w-0 pl-64 min-h-screen flex flex-col">
         <main className="grow p-8 md:p-12 max-w-7xl mx-auto w-full min-w-0">
-          <Header title="Proveedores" />
+          <Header
+            title="Proveedores"
+            subtitle="Administra los proveedores de Natta Cocinas."
+          />
           <ProveedoresSection />
         </main>
       </div>
