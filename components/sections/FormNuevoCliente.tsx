@@ -126,7 +126,6 @@ export default function FormNuevoCliente({ onCerrar, onClienteCreado }: FormNuev
                                 value={direccion}
                                 onChange={(e) => setDireccion(e.target.value)}
                                 className="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-blue-500/50 focus:bg-zinc-900 transition-all"
-                                required
                             />
                         </div>
                     </div>

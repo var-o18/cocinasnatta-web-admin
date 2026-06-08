@@ -35,7 +35,7 @@ export default function Sidebar() {
     { name: 'Proveedores', path: '/proveedores', icon: <Truck className="w-5 h-5" /> },
     { name: 'Agenda', path: '/agenda', icon: <Calendar className="w-5 h-5" /> },
     { name: 'Mensajes', path: '/mensajes', icon: <Mail className="w-5 h-5" /> },
-    { name: 'Configurador 3D', path: '/configurador', icon: <Cuboid className="w-5 h-5" /> },
+    { name: 'Propuestas 3D', path: '/propuestas', icon: <Cuboid className="w-5 h-5" /> },
   ];
 
   return (

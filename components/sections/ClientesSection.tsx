@@ -74,8 +74,7 @@ export default function ClientesSection() {
         return (
             cliente.nombre.toLowerCase().includes(query) ||
             cliente.correo.toLowerCase().includes(query) ||
-            cliente.telefono.toLowerCase().includes(query) ||
-            cliente.direccion.toLowerCase().includes(query)
+            cliente.telefono.toLowerCase().includes(query)
         );
     });
 

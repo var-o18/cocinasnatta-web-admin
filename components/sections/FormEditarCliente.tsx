@@ -40,7 +40,7 @@ export default function FormEditarCliente({ cliente, onCerrar, onClienteEditado 
         setError('');
         setCargando(true);
 
-        if (!nombre || !correo || !telefono || !direccion) {
+        if (!nombre || !correo || !telefono) {
             setError('Todos los campos son obligatorios.');
             setCargando(false);
             return;
