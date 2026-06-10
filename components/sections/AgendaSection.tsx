@@ -369,7 +369,7 @@ export default function AgendaSection() {
                             <button
                                 onClick={guardarEvento}
                                 disabled={isSaving || isDeleting}
-                                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl transition flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex-1 bg-[#c99a6b] hover:bg-[#c99a6b]/80 text-black py-2 rounded-xl transition flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold cursor-pointer"
                             >
                                 {isSaving && <Loader2 size={18} className="animate-spin" />}
                                 Guardar
