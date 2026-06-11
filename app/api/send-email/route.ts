@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     if (!subject) {
       return NextResponse.json({ ok: false, error: 'Falta asunto' }, { status: 400 });
     }
-    if (!text && !html) {
+    if (!text && !htmlRaw) {
       return NextResponse.json({ ok: false, error: 'Falta contenido (text o html)' }, { status: 400 });
     }
     if (replyTo && !isValidEmail(replyTo)) {
